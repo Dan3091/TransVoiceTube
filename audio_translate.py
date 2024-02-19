@@ -53,3 +53,21 @@ def audio_to_text(from_language):
             return True
         except:
             return False
+
+def text_to_audio(to_language):
+    """
+    The function takes to_language(mean the language you want to be translated to) as argument,
+    then takes the text from txt file, translates it to the specified language and finally
+    converts it to an audio mp3 file.
+    """
+
+    global txt
+    try:
+        os.remove("audio.wav")
+        translate_text = GoogleTranslator(source='auto', target=to_language[:2]).translate(txt)
+        tts = gTTS(text=translate_text, lang=to_language[:2])
+        tts.save("Converted_Audiofile.mp3")
+        txt = ""
+        return True
+    except:
+        return False
