@@ -36,3 +36,20 @@ def convert_mp4_to_wav():
         return True
     except:
         return False
+
+def audio_to_text(from_language):
+    """
+    This function takes from_language(mean the current language of the audio file)
+    as an argument, converts it to a string format and saves it in txt variable.
+    """
+
+    rec = Recognizer()
+    file = AudioFile("audio.wav")
+    global txt
+    with file as source:
+        audio = rec.record(source)
+        try:
+            txt = rec.recognize_google(audio_data=audio, language=from_language)
+            return True
+        except:
+            return False
