@@ -22,3 +22,17 @@ def download_video(url_video):
         return True
     except:
         return False
+
+def convert_mp4_to_wav():
+    """
+    The function take the recently downloaded file that is in *.mp4
+    format and converts it in a *.wav format.
+    """
+
+    try:
+        audio = AudioSegment.from_file("AudioTrack.mp4", format="mp4")
+        audio.export("audio.wav", format="wav")
+        os.remove("AudioTrack.mp4")
+        return True
+    except:
+        return False
