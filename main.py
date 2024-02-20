@@ -99,7 +99,37 @@ def popup_message(message):
     pop.mainloop()
 
 def data_processing():
-    pass
+    """
+    This function is the main function it checks all the validations,
+    then calls and checks the download_video function and finally checks all three functions:
+    convert_mp4_to_wav, audio_to_text, text_to_audio from audio_translate.py file.
+    """
+
+    success = False
+    if all((url_entry_validation(),
+            language_from_validation(),
+            language_to_validation(),
+            language_selector_validation())):
+        app.withdraw()
+        url = app.entry_url.get()
+        from_language = app.languages[app.clicked1.get()]
+        to_language = app.languages[app.clicked2.get()]
+        if download_video(url):
+            load_bar_thread = threading.Thread(daemon=True, target=app.pop_up_loading_bar)
+            load_bar_thread.start()
+            if all((convert_mp4_to_wav(), audio_to_text(from_language), text_to_audio(to_language))):
+                success = True
+            else:
+                stop_thread = threading.Thread(daemon=True, target=app.pop.destroy)
+                stop_thread.start()
+                popup_message("There was an error!!!")
+        else:
+            popup_message("Insert a valid YouTube video link\n or check the connection!!!")
+
+    if success:
+        stop_loading_window_thread = threading.Thread(daemon=True, target=app.pop.destroy)
+        stop_loading_window_thread.start()
+        popup_message("Congratulations your Converted_Audiofile.mp3\n file has been created!!!")
 
 if __name__ == "__main__":
     app = App(data_processing)
