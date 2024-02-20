@@ -133,6 +133,3 @@ class App(Tk):
         posy = str((self.pop.winfo_screenheight() // 2) - (self.pop.winfo_height() // 2))
         self.pop.geometry(f"{self.pop.winfo_width()}x{self.pop.winfo_height()}+{posx}+{posy}")
         self.pop.mainloop()
-
-
-App().mainloop()
