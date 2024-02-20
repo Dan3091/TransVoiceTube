@@ -29,7 +29,7 @@ Wait, the process will start:<br/>
 <img src="https://github.com/Dan3091/TransVoiceTube/blob/master/Image_0002.jpg"/>
 <br />
 <br />
-When the process ends popup window will appear, click OK:<br/>
+When the process ends a popup window will appear, click OK:<br/>
 <img src="https://github.com/Dan3091/TransVoiceTube/blob/master/Image_0003.jpg"/>
 <br />
 <br />
