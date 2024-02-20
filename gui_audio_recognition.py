@@ -3,7 +3,8 @@ import customtkinter
 
 
 class App(Tk):
-    def __init__(self):
+    def __init__(self, data_processing):
+        self.data_processing = data_processing
         super().__init__()
         self.title("TransVoiceTube")
         self.resizable(False, False)
@@ -85,7 +86,8 @@ class App(Tk):
                                      foreground="#a9babc",
                                      activebackground="#283f5b",
                                      activeforeground="white",
-                                     width=10)
+                                     width=10,
+                                     command=self.callback_convert)
         self.convert_button.place(x=110, y=290)
 
         self.quit_button = Button(text="Quit",
@@ -97,4 +99,40 @@ class App(Tk):
                                   width=10,
                                   command=self.destroy)
         self.quit_button.place(x=260, y=290)
+
+    def callback_convert(self):
+        self.update()
+        self.after(1, self.data_processing())
+
+    def pop_up_loading_bar(self):
+        # Here will be created a popup window with a progress bar on it
+        self.pop = Tk()
+        self.pop.attributes('-topmost', 1)
+        self.pop.grab_set()
+        self.pop.configure(bg="#242c31")
+        self.pop.resizable(False, False)
+        self.pop.overrideredirect(True)
+        self.pop_label = Label(self.pop, text="Loading, please wait...", font="Italic 16", bg="#242c31", fg="#95b1bc")
+        self.pop_label.pack(pady=(10, 20), padx=10)
+
+        loading_bar = customtkinter.CTkProgressBar(self.pop,
+                                                   mode="indeterminate",
+                                                   indeterminate_speed=2,
+                                                   orientation="horizontal",
+                                                   height=30,
+                                                   corner_radius=0,
+                                                   fg_color="#7b999c",
+                                                   progress_color="#38454c")
+        loading_bar.pack()
+        loading_bar.start()
+
+        self.pop_label = Label(self.pop, text="", bg="#242c31")
+        self.pop_label.pack(pady=(10, 0), padx=10)
+        self.pop.update_idletasks()
+        posx = str((self.pop.winfo_screenwidth() // 2) - (self.pop.winfo_width() // 2))
+        posy = str((self.pop.winfo_screenheight() // 2) - (self.pop.winfo_height() // 2))
+        self.pop.geometry(f"{self.pop.winfo_width()}x{self.pop.winfo_height()}+{posx}+{posy}")
+        self.pop.mainloop()
+
+
 App().mainloop()
